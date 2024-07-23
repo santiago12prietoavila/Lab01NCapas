@@ -38,9 +38,19 @@ namespace DAL
             return Result;
         }
 
-        public Task<bool> DeleteAsync<TEntity>(TEntity toDelete) where TEntity : class
+        public async Task<bool> DeleteAsync<TEntity>(TEntity toDelete) where TEntity : class
         {
-            throw new NotImplementedException();
+            bool Result = false;
+            try
+            {
+                _context.Entry<TEntity>(toDelete).State = EntityState.Deleted;
+                Result = await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbException)
+            {
+                throw;
+            }
+            return Result;
         }
 
         public void Dispose()
