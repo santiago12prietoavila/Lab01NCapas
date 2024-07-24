@@ -3,11 +3,13 @@
 using DAL;
 using Entities.Models;
 using System.Linq.Expressions;
+using System.Reflection;
 
 //CreateAsync().GetAwaiter().GetResult();
 //RetreiveAsync().GetAwaiter().GetResult();
 //UpdateAsync().GetAwaiter().GetResult();
-FilterAsync().GetAwaiter().GetResult();
+//FilterAsync().GetAwaiter().GetResult();
+DeleteAsync().GetAwaiter().GetResult();
 
 
 Console.ReadKey();  
@@ -109,4 +111,22 @@ static async Task FilterAsync()
             Console.WriteLine($"Customer:{customer.FirstName}\t{customer.LastName}\t from {customer.City} ");
         }
     }
+}
+
+static async Task DeleteAsync()
+{
+    using(var repository = RepositoryFactory.CreateRepository())
+    {
+        Expression<Func<Customer, bool>> criteria = customer => customer.Id == 92;
+        var customerToDelete = await repository.RetreiveAsync(criteria);
+        if(customerToDelete != null)
+        {
+            bool deleted = await repository.DeleteAsync(customerToDelete);
+            Console.WriteLine(deleted ? "Customer  deleted successfully." : "Failed to delte customer");
+
+        }
+    }
+
+
+
 }
