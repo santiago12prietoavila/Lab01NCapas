@@ -66,10 +66,19 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public Task<TEntity> RetreiveAsync<TEntity>(Expression<Func<TEntity, bool>> criteria) where TEntity : class
+        public async Task<TEntity> RetreiveAsync<TEntity>(Expression<Func<TEntity, bool>> criteria) where TEntity : class
         {
-            throw new NotImplementedException();
-        }
+            TEntity Result = null;
+            try
+            {
+                Result = await _context.Set<TEntity>().FirstOrDefaultAsync(criteria);
+            }
+            catch (DbException)
+            {
+                throw;
+            }
+            return Result;
+        } 
 
         public  async Task<bool> UpdateAsync<TEntity>(TEntity toUpdate) where TEntity : class
         {
