@@ -113,9 +113,10 @@ namespace BLL
             }
             return Result;
         }
-    }
 
-
-
-    
+        public static implicit operator Customers(Customer v)
+        {
+            throw new NotImplementedException();
+        }
+    } 
 }
