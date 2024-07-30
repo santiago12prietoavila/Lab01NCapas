@@ -13,10 +13,12 @@ namespace Services.Controllers
     public class CustomerController : ControllerBase, ICustomerService
     {
         private readonly Customers _bll; //Dependency injection for better testability
-        public CustomerController(Customer bll)
+
+        public CustomerController(Customers bll)
         {
             _bll = bll;
         }
+       
         //GET : api/<CustomerController>
         [HttpGet]
         public async Task<ActionResult<List<Customer>>> GetAll()
